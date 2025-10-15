@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Consumo de Água</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f0f8ff;
+      color: #333;
+    }
+
+    /* Cabeçalho */
+    header {
+      background: #0077b6;
+      color: white;
+      padding: 15px 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 22px;
+      margin: 10px 0;
+    }
+
+    /* Imagem da Semana da Ciência (Banner Retangular) */
+    #logo-semana-ciencia {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      margin-top: 20px;
+    }
+
+    /* Conteúdo principal */
+    main {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    input {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 97%;
+      background: #0077b6;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #0096c7;
+    }
+
+    /* Resultado */
+    #resultado {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .verde { background: #90ee90; }
+    .amarelo { background: #fff176; }
+    .vermelho { background: #ff8a80; }
+
+    /* Rodapé */
+    footer {
+      background: #0077b6;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    footer img {
+      height: 30px;
+    }
+
+    /* Responsividade */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 18px;
+      }
+
+      #logo-semana-ciencia {
+        height: 200px;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img id="logo-semana-ciencia" src="semanaciencia.png" alt="Logomarca SNCT">
+    <h1>Calculadora de Consumo de Água Diário</h1>
+  </header>
+
+  <main>
+    <p style="text-align:center; font-weight:bold;">
+      Descubra se você está ajudando o meio ambiente através da nossa calculadora!
+    </p>
+
+    <form id="formAgua">
+      <label for="banhoQtd">Quantos banhos por dia?</label>
+      <input type="number" id="banhoQtd" placeholder="Ex.: 2" required>
+
+      <label for="banhoMin">Quantos minutos em média cada banho?</label>
+      <input type="number" id="banhoMin" placeholder="Ex.: 10" required>
+
+      <label for="descarga">Descargas por dia:</label>
+      <input type="number" id="descarga" placeholder="Ex.: 5" required>
+
+      <label for="louca">Lavar louça por dia (vezes):</label>
+      <input type="number" id="louca" placeholder="Ex.: 2" required>
+
+      <label for="roupa">Máquina de lavar por dia (vezes):</label>
+      <input type="number" id="roupa" placeholder="Ex.: 1" required>
+
+      <button type="button" onclick="calcular()">Calcular</button>
+    </form>
+
+    <div id="resultado"></div>
+  </main>
+
+  <footer>
+    <span>Site desenvolvido pelos alunos do curso FIC – Programador Web (IFTM) Polo Perdizes</span>
+    <img src="logomarca_perdizes2.png" alt="Logomarca IFTM">
+  </footer>
+
+  <script>
+    function calcular() {
+      const banhoLitros = 7;    // litros por minuto
+      const descargaLitros = 5; // litros por descarga
+      const loucaLitros = 20;   // por lavagem
+      const roupaLitros = 100;  // por uso da máquina
+
+      let banhoQtd = parseInt(document.getElementById("banhoQtd").value) || 0;
+      let banhoMin = parseInt(document.getElementById("banhoMin").value) || 0;
+      let descarga = parseInt(document.getElementById("descarga").value) || 0;
+      let louca = parseInt(document.getElementById("louca").value) || 0;
+      let roupa = parseInt(document.getElementById("roupa").value) || 0;
+
+      let totalBanho = banhoQtd * banhoMin * banhoLitros;
+      let totalDescarga = descarga * descargaLitros;
+      let totalLouca = louca * loucaLitros;
+      let totalRoupa = roupa * roupaLitros;
+
+      let total = totalBanho + totalDescarga + totalLouca + totalRoupa;
+
+      let resultado = document.getElementById("resultado");
+      resultado.className = "";
+
+      if (total < 200) {
+        resultado.classList.add("verde");
+        resultado.innerHTML = `Você consumiu aproximadamente <b>${total} litros</b> <b>hoje</b>. 👏<br>
+        Excelente! Seu consumo está dentro do padrão sustentável. Continue assim e ajude a preservar nossos recursos hídricos.`;
+      } else if (total < 350) {
+        resultado.classList.add("amarelo");
+        resultado.innerHTML = `Você consumiu aproximadamente <b>${total} litros</b> <b>hoje</b>. ⚠️<br>
+        Seu consumo está razoável, mas pode melhorar. Que tal reduzir alguns minutos no banho ou economizar na hora de lavar a louça?`;
+      } else {
+        resultado.classList.add("vermelho");
+        resultado.innerHTML = `Você consumiu aproximadamente <b>${total} litros</b> <b>hoje</b>. 🚨<br>
+        Consumo elevado! Procure rever seus hábitos para evitar desperdício e proteger o meio ambiente.`;
+      }
+    }
+  </script>
+</body>
+</html>
